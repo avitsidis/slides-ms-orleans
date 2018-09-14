@@ -38,37 +38,38 @@
 				</ol>
 			</section>
 			<section>
-				<h2>Pourquoi Microsoft Orleans?</h2>
-				<ul>
-					<li></li>
-				</ul>
-			</section>
-			<section>
-				<h2>Qu'est ce que Microsoft Orleans ?</h2>
+				<h2>Microsoft Orleans en quelques mots ?</h2>
 				<ul>
 					<li>C# distribué</li>
-					<!-- 
-						•Orleans runs your .NET objects on a cluster as if within a single process
-						•Define .NET interfaces and classes, deploy to Azure, send requests to them
-						-->
 					<li>Boite à outils pour services 'cloud'</li>
-					<!-- 
-							•Encapsulates best practices for building scalable, reliable, elastic services
-							•Framework for stateful near-real-time backends
-							•3-5x less and simpler code to write, scalability by default -->
-					<li>Virtual Actor model distribué</li>
-					<!-- 
-							•Adaptation of the Actor Model for challenges of the Cloud
-							•Actors that exist eternally and never fail
-						-->
+					<li>Virtual Actor Model acteur virtuel distribué</li>
 				</ul>
+				<aside class="notes">
+						<h3>C# distribué</h3>
+						<ul>
+							<li>Orleans runs your .NET objects on a cluster as if within a single process</li>
+							<li>Define .NET interfaces and classes, deploy to Azure, send requests to them</li>
+						</ul>
+						<h3>Boite à outils pour services 'cloud'</h3>
+						<ul>
+							<li>Encapsulates best practices for building scalable, reliable, elastic services</li>
+							<li>Framework for stateful near-real-time backends</li>
+							<li>3-5x moins de code less et code plus simple</li>
+							<li>Nativement scalable</li>
+						</ul>
+						<h3>Virtual Actor Model acteur virtuel distribué</h3>
+						<ul>
+							<li>Adaptation of the Actor Model for challenges of the Cloud</li>
+							<li>Actors that exist eternally and never fail</li>
+						</ul>
+				</aside>
 			</section>
 			<section>
 				<h2>Rappel: Modèle Acteur</h2>
 				<p>C'est un peu comme un objet:</p>
 				<ul>
-					<li>reçoit des messages</li>
-					<li>maintien un état</li>
+					<li>Reçoit des messages</li>
+					<li>Maintien un état</li>
 					<li>Execute du code en fonction du message recu</li>
 				</ul>
 			</section>
@@ -80,10 +81,26 @@
 				<ul>
 					<li>completement isolé des uns des autres</li>
 					<li>ne partage pas de mémoire</li>
-					<li>Communication via une mailbox</li>
+					<li>Communication via une mailbox(adresse)</li>
 					<!-- <li>Son etat interne ne peut pas être changé pas un autre acteur</li> -->
 					<!-- <li>Peut etre sur des serveurs différents</li> -->
 				</ul>
+				<aside class="notes">
+						<ul>
+								<li>
+									Completement isolé des uns des autres
+									<ul>
+										<li>Son etat interne ne peut pas être changé pas un autre acteur</li>
+									</ul>
+								</li>
+								<li>Ne partage pas de mémoire</li>
+								<li>Communication via une mailbox(adresse)
+									<ul>
+											<li>Peut etre sur des serveurs différents</li>
+									</ul>
+								</li>
+							</ul>
+				</aside>
 			</section>
 			<section>
 				<h2>Rappel: Modèle Acteur</h2>
@@ -91,7 +108,7 @@
 				<ul>
 					<li>Créer d'autres acteur</li>
 					<li>Envoyer un message à un autre acteur</li>
-					<li>Changer son état</li><!-- Check last one ? -->
+					<li>Changer son état</li>
 				</ul>
 			</section>
 			<section>
@@ -100,8 +117,45 @@
 				<ul>
 					<li>responsabilité de récupération à un autre niveau</li>
 					<li>acteur dépendant d'un superviseur (acteur)</li>
-					<li>stratégie la plus facile: acteur réinitiatlisé avec son état initial</li><!-- Check last one ? -->
+					<li>stratégie la plus facile: acteur réinitiatlisé avec son état initial</li>
 				</ul>
+			</section>
+			<section>
+				<h2>Virtual Actor</h2>
+				<h3></h3>
+				<ul>
+					<li>L'instance d'acteur existe toujours (virtuellement)</li>
+					<!--• Application neither creates nor deletes them. They never fail.
+						• Code can always call methods on an actor -->
+					<li>Activations créée à la demande</li>
+					<!-- 
+						• If there is no existing activation, a message sent to it triggers instantiation
+						• Transparent recovery from server failures
+						• Lifecycle is managed by the runtime
+						• Runtime can create multiple activations of stateless actors (for performance)
+					-->
+					<li>Localisation transparente</li><!-- Check last one ? -->
+					<!--• Actors can pass around references to one another or persist them
+						• These are logical (virtual) references, always valid, not tied to a specific activation -->
+				</ul>
+				<aside class="notes">
+						<ul>
+								<li>L'instance d'acteur existe toujours (virtuellement)</li>
+								<!--• Application neither creates nor deletes them. They never fail.
+									• Code can always call methods on an actor -->
+								<li>Activations créée à la demande</li>
+								<!-- 
+									• If there is no existing activation, a message sent to it triggers instantiation
+									• Transparent recovery from server failures
+									• Lifecycle is managed by the runtime
+									• Runtime can create multiple activations of stateless actors (for performance)
+								-->
+								<li>Localisation transparente</li><!-- Check last one ? -->
+								<!--• Actors can pass around references to one another or persist them
+									• These are logical (virtual) references, always valid, not tied to a specific activation -->
+							</ul>
+				</aside>
+
 			</section>
 			<section>
 				<h2>Nomenclature MS Orleans</h2>
