@@ -4,7 +4,7 @@ Slides created using [revealJS](https://github.com/hakimel/reveal.js)
 
 ## Presentation
 
-Open [presentation](index.html)
+Open [presentation](https://avitsidis.github.io/slides-ms-orleans/)
 
 ## Run Speaker Notes/Presentator Mode
 
