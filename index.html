@@ -34,35 +34,68 @@
 			<section>
 				<h2>Agenda</h2>
 				<ol>
-					<li></li>
+					<li><a href="#introduction">Introduction à MS Orleans</a></li>
+					<li><a href="#actor-model">Le modèle Acteur</a></li>
+					<li><a href="#ms-orleans-virtual-actor-model">MS Orleans & Virtual Actor Model</a></li>
+					<li><a href="#patterns">Virtual Actor Patterns</a></li>
+					<li><a href="conclusions">Conclusions</a></li>
+					<li><a href="questions">Questions</a></li>
 				</ol>
 			</section>
 			<section>
-				<h2>Microsoft Orleans en quelques mots ?</h2>
+				<h1 id="introduction">Introduction à MS Orleans</h1>
+				<p>
+					<i>A straightforward approach to building distributed, high-scale applications in .NET</i>
+				</p>
+			</section>
+			<section>
+				<h2>Les origines</h2>
+				<ul>
+					<li>Créé par Microsoft Research en 2011</li>
+					<li>Open source depuis 2015 (repository Microsoft avec le plus d'activité)</li>
+					<li>Utilisé principalement par:
+						<ul>
+							<li>Produits Microsoft (Azure)</li>
+							<li>343 Industries (Halo 4 et 5)</li>
+							<li>Multiple IoT project</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+			<section>
+				<h2>Microsoft Orleans en quelques mots</h2>
 				<ul>
 					<li>C# distribué</li>
 					<li>Boite à outils pour services 'cloud'</li>
 					<li>Virtual Actor Model acteur virtuel distribué</li>
 				</ul>
 				<aside class="notes">
-						<h3>C# distribué</h3>
-						<ul>
-							<li>Orleans runs your .NET objects on a cluster as if within a single process</li>
-							<li>Define .NET interfaces and classes, deploy to Azure, send requests to them</li>
-						</ul>
-						<h3>Boite à outils pour services 'cloud'</h3>
-						<ul>
-							<li>Encapsulates best practices for building scalable, reliable, elastic services</li>
-							<li>Framework for stateful near-real-time backends</li>
-							<li>3-5x moins de code less et code plus simple</li>
-							<li>Nativement scalable</li>
-						</ul>
-						<h3>Virtual Actor Model acteur virtuel distribué</h3>
-						<ul>
-							<li>Adaptation of the Actor Model for challenges of the Cloud</li>
-							<li>Actors that exist eternally and never fail</li>
-						</ul>
+					<h3>C# distribué</h3>
+					<ul>
+						<li>Orleans runs your .NET objects on a cluster as if within a single process</li>
+						<li>Define .NET interfaces and classes, deploy to Azure, send requests to them</li>
+					</ul>
+					<h3>Boite à outils pour services 'cloud'</h3>
+					<ul>
+						<li>Encapsulates best practices for building scalable, reliable, elastic services</li>
+						<li>Framework for stateful near-real-time backends</li>
+						<li>3-5x moins de code less et code plus simple</li>
+						<li>Nativement scalable</li>
+					</ul>
+					<h3><b>Virtual</b> Actor Model</h3>
+					<ul>
+						<li>Adaptation of the Actor Model for challenges of the Cloud</li>
+						<li>Actors that exist eternally and never fail</li>
+					</ul>
 				</aside>
+			</section>
+			<section>
+				evolution des architecture
+				http://www.hpts.ws/papers/2013/Bykov.pdf
+				https://www.microsoft.com/en-us/research/project/orleans-virtual-actors/
+			</section>
+			<section>
+				<h1 id="actor-model">Le modèle Acteur</h1>
 			</section>
 			<section>
 				<h2>Rappel: Modèle Acteur</h2>
@@ -77,29 +110,27 @@
 			<section>
 				<h2>Rappel: Modèle Acteur</h2>
 				<p>C'est un peu comme un objet...</p>
-				<p>Mais pas complètement</p>
+				<p><b>Mais pas complètement</b></p>
 				<ul>
 					<li>completement isolé des uns des autres</li>
 					<li>ne partage pas de mémoire</li>
 					<li>Communication via une mailbox(adresse)</li>
-					<!-- <li>Son etat interne ne peut pas être changé pas un autre acteur</li> -->
-					<!-- <li>Peut etre sur des serveurs différents</li> -->
 				</ul>
 				<aside class="notes">
-						<ul>
-								<li>
-									Completement isolé des uns des autres
-									<ul>
-										<li>Son etat interne ne peut pas être changé pas un autre acteur</li>
-									</ul>
-								</li>
-								<li>Ne partage pas de mémoire</li>
-								<li>Communication via une mailbox(adresse)
-									<ul>
-											<li>Peut etre sur des serveurs différents</li>
-									</ul>
-								</li>
+					<ul>
+						<li>
+							Completement isolé des uns des autres
+							<ul>
+								<li>Son etat interne ne peut pas être changé pas un autre acteur</li>
 							</ul>
+						</li>
+						<li>Ne partage pas de mémoire</li>
+						<li>Communication via une mailbox(adresse)
+							<ul>
+								<li>Peut etre sur des serveurs différents</li>
+							</ul>
+						</li>
+					</ul>
 				</aside>
 			</section>
 			<section>
@@ -121,42 +152,59 @@
 				</ul>
 			</section>
 			<section>
-				<h2>Virtual Actor</h2>
+				<h1 id="ms-orleans-virtual-actor-model">MS Orleans & Virtual Actor Model</h1>
+			</section>
+			<section>
+				<h2>Problems with Actor Model Frameworks</h2>
+				<ul>
+					<li>Too low level
+						<ul>
+								<li>App manages lifecycle of actors, exposed to distributed races</li>
+								<li>App has to deal with actor failures, supervision trees</li>
+								<li>App manages placement of actors - resource management</li>
+						</ul>
+					</li>
+					<li>Developer has to be a distributed systems expert</li>
+				</ul>
+				</section>
+			<section>
+				<h2>Virtual Actor Model</h2>
 				<h3></h3>
 				<ul>
 					<li>L'instance d'acteur existe toujours (virtuellement)</li>
 					<!--• Application neither creates nor deletes them. They never fail.
-						• Code can always call methods on an actor -->
+							• Code can always call methods on an actor -->
 					<li>Activations créée à la demande</li>
 					<!-- 
-						• If there is no existing activation, a message sent to it triggers instantiation
-						• Transparent recovery from server failures
-						• Lifecycle is managed by the runtime
-						• Runtime can create multiple activations of stateless actors (for performance)
-					-->
+							• If there is no existing activation, a message sent to it triggers instantiation
+							• Transparent recovery from server failures
+							• Lifecycle is managed by the runtime
+							• Runtime can create multiple activations of stateless actors (for performance)
+						-->
 					<li>Localisation transparente</li><!-- Check last one ? -->
 					<!--• Actors can pass around references to one another or persist them
-						• These are logical (virtual) references, always valid, not tied to a specific activation -->
+							• These are logical (virtual) references, always valid, not tied to a specific activation -->
 				</ul>
 				<aside class="notes">
-						<ul>
-								<li>L'instance d'acteur existe toujours (virtuellement)</li>
-								<!--• Application neither creates nor deletes them. They never fail.
-									• Code can always call methods on an actor -->
-								<li>Activations créée à la demande</li>
-								<!-- 
-									• If there is no existing activation, a message sent to it triggers instantiation
-									• Transparent recovery from server failures
-									• Lifecycle is managed by the runtime
-									• Runtime can create multiple activations of stateless actors (for performance)
-								-->
-								<li>Localisation transparente</li><!-- Check last one ? -->
-								<!--• Actors can pass around references to one another or persist them
-									• These are logical (virtual) references, always valid, not tied to a specific activation -->
-							</ul>
+					<ul>
+						<li>L'instance d'acteur existe toujours (virtuellement)</li>
+						<!--• Application neither creates nor deletes them. They never fail.
+										• Code can always call methods on an actor -->
+						<li>Activations créée à la demande</li>
+						<!-- 
+										• If there is no existing activation, a message sent to it triggers instantiation
+										• Transparent recovery from server failures
+										• Lifecycle is managed by the runtime
+										• Runtime can create multiple activations of stateless actors (for performance)
+									-->
+						<li>Localisation transparente</li><!-- Check last one ? -->
+						<!--• Actors can pass around references to one another or persist them
+										• These are logical (virtual) references, always valid, not tied to a specific activation -->
+					</ul>
 				</aside>
 
 			</section>
+
 			<section>
 				<h2>Nomenclature MS Orleans</h2>
 				<div>
@@ -174,8 +222,13 @@
 			</section>
 			<section>
 				<h2>Définition d'un grain</h2>
-				Actor instances always exist, virtually one activation of a virtual actor within the cluster on-demand activations Location
-				transparency each grain corresponding to an entity with a unique type/identity
+				<ul>
+					<li>Acteur existe toujours(virtuellement ou effectivement)</li>
+					<li>Activation sur le cluster à la demande</li>
+					<li>Localisation transparente</li>
+					<li>Chaque grain a identifiant unique</li>
+					<li>Ne retourne que des objets de type <b>Task</b></li>
+				</ul>
 				<img src="images/grain.jpg" />
 			</section>
 			<section>
@@ -189,6 +242,13 @@
 				un grain => une entité avec une clé unique pour un type donné           
 			-->
 			</section>
+
+			<section>
+				<h2>Appeler un grain en pratique</h2>
+
+			</section>
+
+
 			<section>
 				<h2>Stateless Worker Grain</h2>
 				<h3>Définition</h3>
@@ -207,23 +267,26 @@ Decompression, routing, hashing, …
 				<h3>Cas d'utilisation</h3>
 			</section>
 			<section>
-				<h2>Stateless Worker grain </h2>
-				<h3>Cas d'utilisation</h3>
+				<h1 id="patterns">Virtual Actor Patterns</h1>
+				<ul>
+					<li>Virtual Cache</li>
+					<li>Registry</li>
+					<li>Aggregate</li>
+					<li>Event Sourcing</li>
+				</ul>
 			</section>
-
 
 			<section>
-				<h2>Cache</h2>
+				<h2>Virtual Cache</h2>
 				<h3>Cas d'utilisation</h3>
 			</section>
-			
+
 			<section>
 				<h2>Registry</h2>
 				<h3>Cas d'utilisation</h3>
 			</section>
-			
 			<section>
-				<h2>Cache</h2>
+				<h2>Aggregate</h2>
 				<h3>Cas d'utilisation</h3>
 			</section>
 			<section>
@@ -231,12 +294,33 @@ Decompression, routing, hashing, …
 				<h3>Cas d'utilisation</h3>
 			</section>
 			<section>
-				<h2>Pattern Aggregate</h2>
-				<h3>Cas d'utilisation</h3>
+				<h1 id="conclusions">Conclusions</h1>
+			</section>
+			<section>
+				<h2>Conclusions</h2>
 			</section>
 
-
-		</section>
+			<section>
+				<h2>Conclusions</h2>
+				<h3>Autres Projets utilisant le modèle d'acteur virtuel</h3>
+				<ul>
+					<li>JVM: <a href="https://github.com/orbit/orbit">Orbit</a> <i>Electronic Arts</i></li>
+					<li>Erlang: <a href="https://github.com/SpaceTime-IoT/erleans">Erleans</a></li>
+				</ul>
+			</section>
+			<section>
+				<h1 id="questions">Questions</h1>
+			</section>
+			<section>
+				<h2>Références</h2>
+				<ul>
+					<li>https://www.microsoft.com/en-us/research/project/orleans-virtual-actors/</li>
+					<li><a href="http://www.hpts.ws/papers/2013/Bykov.pdf">15th International Workshop on High Performance Transaction Systems (HPTS 2013).</a></li>
+					<li>https://github.com/dotnet/orleans</li>
+					<li><a href="https://www.brianstorti.com/the-actor-model/">The actor model in 10 minutes</a></li>
+					
+				</ul>
+			</section>
 		</div>
 	</div>
 
