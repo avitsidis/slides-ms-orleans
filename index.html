@@ -79,7 +79,7 @@
 					<ul>
 						<li>Encapsulates best practices for building scalable, reliable, elastic services</li>
 						<li>Framework for stateful near-real-time backends</li>
-						<li>3-5x moins de code less et code plus simple</li>
+						<li>3-5x moins de code et code plus simple</li>
 						<li>Nativement scalable</li>
 					</ul>
 					<h3><b>Virtual</b> Actor Model</h3>
@@ -88,9 +88,6 @@
 						<li>Actors that exist eternally and never fail</li>
 					</ul>
 				</aside>
-			</section>
-			<section>
-				evolution des architecture http://www.hpts.ws/papers/2013/Bykov.pdf https://www.microsoft.com/en-us/research/project/orleans-virtual-actors/
 			</section>
 			<section>
 				<h1 id="actor-model">Le modèle Acteur</h1>
@@ -104,7 +101,6 @@
 					<li>Execute du code en fonction du message recu</li>
 				</ul>
 			</section>
-
 			<section>
 				<h2>Rappel: Modèle Acteur</h2>
 				<p>C'est un peu comme un objet...</p>
@@ -153,21 +149,20 @@
 				<h1 id="ms-orleans-virtual-actor-model">MS Orleans & Virtual Actor Model</h1>
 			</section>
 			<section>
-				<h2>Problems with Actor Model Frameworks</h2>
+				<h2>Points faible du modèle Acteur</h2>
 				<ul>
-					<li>Too low level
+					<li>Framework Low Level
 						<ul>
-							<li>App manages lifecycle of actors, exposed to distributed races</li>
-							<li>App has to deal with actor failures, supervision trees</li>
-							<li>App manages placement of actors - resource management</li>
+							<li>Lifecycle géré par l'application --> exposé aux distributed races</li>
+							<li>Gestion des exceptions par l'application au travers d'acteur parent (supervision tree)</li>
+							<li>Placement des acteurs défini par l'application --> problèmes de gestion des ressources</li>
 						</ul>
 					</li>
-					<li>Developer has to be a distributed systems expert</li>
+					<li>Besoin d'avoir des experts en système distribué</li>
 				</ul>
 			</section>
 			<section>
 				<h2>Virtual Actor Model</h2>
-				<h3></h3>
 				<ul>
 					<li>L'instance d'acteur existe toujours (virtuellement)</li>
 					<!--• Application neither creates nor deletes them. They never fail.
@@ -185,19 +180,25 @@
 				</ul>
 				<aside class="notes">
 					<ul>
-						<li>L'instance d'acteur existe toujours (virtuellement)</li>
-						<!--• Application neither creates nor deletes them. They never fail.
-										• Code can always call methods on an actor -->
-						<li>Activations créée à la demande</li>
-						<!-- 
-										• If there is no existing activation, a message sent to it triggers instantiation
-										• Transparent recovery from server failures
-										• Lifecycle is managed by the runtime
-										• Runtime can create multiple activations of stateless actors (for performance)
-									-->
-						<li>Localisation transparente</li><!-- Check last one ? -->
-						<!--• Actors can pass around references to one another or persist them
-										• These are logical (virtual) references, always valid, not tied to a specific activation -->
+						<li>L'instance d'acteur existe toujours (virtuellement)
+							<ul>
+								<li>Application neither creates nor deletes them. They never fail.</li>
+								<li>Code can always call methods on an actor</li>
+							</ul>
+						</li>
+						<li>Activations créée à la demande
+							<ul>
+								<li>If there is no existing activation, a message sent to it triggers instantiation</li>
+								<li>Lifecycle is managed by the runtime</li>
+								<li>Transparent recovery from server failures</li>
+							</ul>
+						</li>
+						<li>Localisation transparente
+							<ul>
+								<li>Actors can pass around references to one another or persist them</li>
+								<li>These are logical (virtual) references, always valid, not tied to a specific activation</li>
+							</ul>
+						</li>
 					</ul>
 				</aside>
 
@@ -234,13 +235,13 @@
 			</section>
 
 			<section>
-				//dessin d'un cluster avec des grains avec des id !=,
-				<!-- 
-				localisation transparente
-				un grain => une entité avec une clé unique pour un type donné           
-			-->
+				<h2>Grain Id</h2>
+				<p>Id == clé unique (string, guid, long)</p>
+				<img width="100%" src="images/grain-silo-front.png"/>
 			</section>
-
+			<section>
+				<h2></h2>
+			</section>
 			<section>
 				<h2>Appeler un grain en pratique</h2>
 
@@ -254,15 +255,22 @@
 					<li>Pas d'adresse/identifiant unique</li>
 					<li>Multiple instances dans un cluster/serveur</li>
 					<li>Toujours exécuté locallement</li>
-					<!--
-functional stateless operations 
-Decompression, routing, hashing, …
-					-->
 				</ul>
 			</section>
 			<section>
 				<h2>Stateless Worker grain </h2>
 				<h3>Cas d'utilisation</h3>
+				<ul>
+					<li>Operations fonctionnelles</li>
+					<li>Opérations techniques
+						<ul>
+							<li>Compression/Décompression</li>
+							<li>(Dé)Chiffrement/hashage</li>
+							<li>Routage</li>
+							<li>...</li>
+						</ul>
+					</li>
+				</ul>
 			</section>
 			<section>
 				<h1 id="patterns">Virtual Actor Patterns</h1>
@@ -314,10 +322,12 @@ Decompression, routing, hashing, …
 				<ul>
 					<li><a href="https://dotnet.github.io/orleans/">Orleans Github Repository </a></li>
 					<li><a href="https://www.microsoft.com/en-us/research/project/orleans-virtual-actors/">Orleans – Virtual Actors</a></li>
-					<li><a href="http://www.hpts.ws/papers/2013/Bykov.pdf">15th International Workshop on High Performance Transaction Systems
+					<li><a href="http://www.hpts.ws/papers/2013/Bykov.pdf">15th International Workshop on High Performance Transaction
+							Systems
 							(HPTS 2013).</a></li>
 					<li><a href="https://www.brianstorti.com/the-actor-model/">The actor model in 10 minutes</a></li>
-					<li><a href="https://www.youtube.com/watch?v=7OVU9Mqqzgs">How to build real-world applications with Orleans - John Azariah
+					<li><a href="https://www.youtube.com/watch?v=7OVU9Mqqzgs">How to build real-world applications with Orleans - John
+							Azariah
 							and Sergey Bykov</a></li>
 
 				</ul>
