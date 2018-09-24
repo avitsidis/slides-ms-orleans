@@ -37,6 +37,7 @@
 					<li><a href="#introduction">Introduction à MS Orleans</a></li>
 					<li><a href="#actor-model">Le modèle Acteur</a></li>
 					<li><a href="#ms-orleans-virtual-actor-model">MS Orleans & Virtual Actor Model</a></li>
+					<li><a href="#code">Avit, montre-nous du code !</a></li>
 					<li><a href="#patterns">Virtual Actor Patterns</a></li>
 					<li><a href="conclusions">Conclusions</a></li>
 					<li><a href="questions">Questions</a></li>
@@ -237,41 +238,74 @@
 			<section>
 				<h2>Grain Id</h2>
 				<p>Id == clé unique (string, guid, long)</p>
-				<img width="100%" src="images/grain-silo-front.png"/>
+				<img width="80%" src="images/grain-silo-front.png" />
 			</section>
 			<section>
 				<h2></h2>
 			</section>
 			<section>
-				<h2>Appeler un grain en pratique</h2>
-
-			</section>
-
-
-			<section>
 				<h2>Stateless Worker Grain</h2>
 				<h3>Définition</h3>
-				<ul>
-					<li>Pas d'adresse/identifiant unique</li>
-					<li>Multiple instances dans un cluster/serveur</li>
-					<li>Toujours exécuté locallement</li>
-				</ul>
+				<div style="width: 40%; float:left;">
+					<img src="images/worker.png" height="100%" />
+				</div>
+				<div style="width: 58%; float:left;">
+					<ul>
+						<li>Pas d'adresse/identifiant unique</li>
+						<li>Multiple instances dans un cluster/serveur</li>
+						<li>Toujours exécuté locallement</li>
+					</ul>
+				</div>
+
 			</section>
 			<section>
 				<h2>Stateless Worker grain </h2>
 				<h3>Cas d'utilisation</h3>
+				<div style="width: 40%; float:left;">
+					<img src="images/worker.png" height="100%" />
+				</div>
+				<div style="width: 58%; float:left;">
+					<ul>
+						<li>Operations fonctionnelles</li>
+						<li>Opérations techniques
+							<ul>
+								<li>Compression/Décompression</li>
+								<li>(Dé)Chiffrement/hashage</li>
+								<li>Routage</li>
+								<li>...</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</section>
+			<section>
+				<h2>Timers and Reminders</h2>
 				<ul>
-					<li>Operations fonctionnelles</li>
-					<li>Opérations techniques
+					<li>
+						<h3>Timers</h3>
 						<ul>
-							<li>Compression/Décompression</li>
-							<li>(Dé)Chiffrement/hashage</li>
-							<li>Routage</li>
-							<li>...</li>
+							<li>Appel périodique d'une méthode</li>
+							<li>Durant l'activation du grain uniquement</li>
+							<li>Appel comme si grain réentrant</li>
+							<li>période = temps après le retour du précédent appel !</li>
 						</ul>
 					</li>
+					<li>
+						<h3>Reminders</h3>
+						<ul>
+							<li>Timers persistants</li>
+							<li>Délivré comme un message</li>
+							<li>Fréquence basse (1 minute)</li>
+						</ul>
+					</li>
+					
 				</ul>
 			</section>
+			<section id="code">
+				<h1>Avit, montre-nous du code !</h1>
+			</section>
+
+
 			<section>
 				<h1 id="patterns">Virtual Actor Patterns</h1>
 				<ul>
