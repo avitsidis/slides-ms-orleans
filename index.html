@@ -9,9 +9,11 @@
 
 	<link rel="stylesheet" href="css/reveal.css">
 	<link rel="stylesheet" href="css/theme/moon.css">
+	<link rel="stylesheet" href="css/custom.css">
 
 	<!-- Theme used for syntax highlighting of code -->
 	<link rel="stylesheet" href="lib/css/zenburn.css">
+	
 
 	<!-- Printing and PDF exports -->
 	<script>
@@ -239,6 +241,9 @@
 				<h2>Grain Id</h2>
 				<p>Id == clé unique (string, guid, long)</p>
 				<img width="80%" src="images/grain-silo-front.png" />
+				<aside  class="notes">
+					uuid colliding probability = population mondiale, genérant un id toutes les secondes pendant plusieurs années
+				</aside>
 			</section>
 			<section>
 				<h2></h2>
@@ -279,33 +284,70 @@
 				</div>
 			</section>
 			<section>
-				<h2>Timers and Reminders</h2>
+				<h2>Timers</h2>
 				<ul>
-					<li>
-						<h3>Timers</h3>
-						<ul>
-							<li>Appel périodique d'une méthode</li>
-							<li>Durant l'activation du grain uniquement</li>
-							<li>Appel comme si grain réentrant</li>
-							<li>période = temps après le retour du précédent appel !</li>
-						</ul>
-					</li>
-					<li>
-						<h3>Reminders</h3>
-						<ul>
-							<li>Timers persistants</li>
-							<li>Délivré comme un message</li>
-							<li>Fréquence basse (1 minute)</li>
-						</ul>
-					</li>
-					
+					<li>Appel périodique d'une méthode</li>
+					<li>Durant l'activation du grain uniquement</li>
+					<li>Appel comme si grain réentrant</li>
+					<li>période = temps après le retour du précédent appel !</li>
+				</ul>
+			</section>
+			<section>
+				<h3>Reminders</h3>
+				<ul>
+					<li>Timers persistants</li>
+					<li>Délivré comme un message</li>
+					<li>Fréquence basse (1 minute)</li>
 				</ul>
 			</section>
 			<section id="code">
 				<h1>Avit, montre-nous du code !</h1>
 			</section>
 
-
+			<section>
+				<h2>Accessing a grain</h2>
+				<pre>
+var user = grainFactory.GetGrain&lt;IUserProfile&gt;(userEmail);
+await user.UpdateAddress(newAddress);
+</pre>
+			</section>
+			<section>
+				<h2>Interface de grain</h2>
+				<pre>
+public interface IPlayerGrain : IGrainWithGuidKey
+{
+	Task&lt;IGameGrain&gt; GetCurrentGame();
+	Task JoinGame(IGameGrain game);
+	Task LeaveGame(IGameGrain game);
+}
+</pre>
+<p>sample from https://dotnet.github.io/</legend>
+			</section>
+			<section>
+				<h2>Implémentation du grain</h2>
+				<pre class="no-border">
+public class PlayerGrain : Grain, IPlayerGrain
+{
+	private IGameGrain currentGame;
+	public Task&lt;IGameGrain&gt; GetCurrentGame() => Task.FromResult(currentGame);
+	public Task JoinGame(IGameGrain game)
+	{
+		currentGame = game;
+		var gameKey = game.GetPrimaryKey();
+		Console.WriteLine($"Player {GetPrimaryKey()} joined game {gameKey}");
+		return Task.CompletedTask;
+	}
+	public Task LeaveGame(IGameGrain game)
+	{
+		currentGame = null;
+		var gameKey = game.GetPrimaryKey();
+		Console.WriteLine($"Player {GetPrimaryKey()} left game {gameKey}");
+		return Task.CompletedTask;
+	}
+}
+</pre>
+<p>sample from https://dotnet.github.io/</legend>
+			</section>
 			<section>
 				<h1 id="patterns">Virtual Actor Patterns</h1>
 				<ul>

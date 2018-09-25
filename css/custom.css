@@ -1,0 +1,5 @@
+.reveal pre.no-border
+{
+    box-shadow: none;
+    width: 100%;
+}
