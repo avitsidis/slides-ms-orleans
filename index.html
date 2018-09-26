@@ -371,13 +371,27 @@ public class PlayerGrain : Grain, IPlayerGrain
 			</section>
 
 			<section>
-					<h2>Virtual Cache</h2>
-				</section>
-			<section>
-				<h2>Virtual Cache</h2>
-				<h3>Cas d'utilisation</h3>
+				<h2>Smart Cache</h2>
+				<img src="images/smartcache.png" width="100%" />
+				<aside class="notes">
+					<ul>
+						<li>Read hits to the system are fast as the grain holds the data in memory.</li>
+						<li>Writes to the system can be buffered at the cost of increased chance of data loss.</li>
+						<li>Using Orleans Persistence Providers could reduce development time as the data access code is already
+							provided.</li>
+					</ul>
+				</aside>
 			</section>
+			<section>
+				<h2>Smart Cache</h2>
+				<h3>Cas d'utilisation</h3>
+				<ul>
+					<li>Cache de base données</li>
+					<li>Cache de web services</li>
+					<li>Cache de ...</li>
 
+				</ul>
+			</section>
 			<section>
 				<h1 id="conclusions">Conclusions</h1>
 			</section>
