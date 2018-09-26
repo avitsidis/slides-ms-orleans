@@ -299,14 +299,14 @@
 
 			<section>
 				<h2>Accessing a grain</h2>
-				<pre><code class="hljs" data-trim contenteditable>
+				<pre><code class="cs hljs" data-trim contenteditable>
 var user = grainFactory.GetGrain&lt;IUserProfile&gt;(userEmail);
 await user.UpdateAddress(newAddress);
 				</code></pre>
 			</section>
 			<section>
 				<h2>Interface de grain</h2>
-				<pre><code class="hljs" data-trim contenteditable>
+				<pre><code class="cs hljs" data-trim contenteditable>
 public interface IPlayerGrain : IGrainWithGuidKey
 {
 	Task&lt;IGameGrain&gt; GetCurrentGame();
@@ -318,7 +318,7 @@ public interface IPlayerGrain : IGrainWithGuidKey
 			</section>
 			<section>
 				<h2>Implémentation du grain</h2>
-				<pre class="no-border"><code class="hljs" data-trim contenteditable>
+				<pre class="no-border"><code class="cs hljs" data-trim contenteditable>
 public class PlayerGrain : Grain, IPlayerGrain
 {
 	private IGameGrain currentGame;
