@@ -13,7 +13,7 @@
 
 	<!-- Theme used for syntax highlighting of code -->
 	<link rel="stylesheet" href="lib/css/zenburn.css">
-	
+
 
 	<!-- Printing and PDF exports -->
 	<script>
@@ -93,11 +93,10 @@
 				</aside>
 			</section>
 			<section>
-				<h1 id="actor-model">Le modèle Acteur</h1>
+				<h1 id="actor-model">Modèle Acteur</h1>
 			</section>
 			<section>
-				<h2>Rappel: Modèle Acteur</h2>
-				<p>C'est un peu comme un objet:</p>
+				<h2>C'est un peu comme un objet ...</h2>
 				<ul>
 					<li>Reçoit des messages</li>
 					<li>Maintien un état</li>
@@ -105,9 +104,8 @@
 				</ul>
 			</section>
 			<section>
-				<h2>Rappel: Modèle Acteur</h2>
-				<p>C'est un peu comme un objet...</p>
-				<p><b>Mais pas complètement</b></p>
+				<h2>C'est un peu comme un objet ...</h2>
+				<h3>... Mais pas complètement</h3>
 				<ul>
 					<li>completement isolé des uns des autres</li>
 					<li>ne partage pas de mémoire</li>
@@ -131,8 +129,7 @@
 				</aside>
 			</section>
 			<section>
-				<h2>Rappel: Modèle Acteur</h2>
-				<p>Que peut faire un acteur ?</p>
+				<h2>Que peut faire un acteur ?</h2>
 				<ul>
 					<li>Créer d'autres acteur</li>
 					<li>Envoyer un message à un autre acteur</li>
@@ -140,8 +137,7 @@
 				</ul>
 			</section>
 			<section>
-				<h2>Rappel: Modèle Acteur</h2>
-				<h3>Let it crash !</h3>
+				<h2>Let it crash !</h2>
 				<ul>
 					<li>responsabilité de récupération à un autre niveau</li>
 					<li>acteur dépendant d'un superviseur (acteur)</li>
@@ -225,7 +221,7 @@
 			<section>
 				<h2>Définition d'un grain</h2>
 				<ul>
-					<li>Acteur existe toujours(virtuellement ou effectivement)</li>
+					<li>Acteur existe toujours(au moins virtuellement)</li>
 					<li>Activation sur le cluster à la demande</li>
 					<li>Localisation transparente</li>
 					<li>Chaque grain a identifiant unique</li>
@@ -239,14 +235,11 @@
 
 			<section>
 				<h2>Grain Id</h2>
-				<p>Id == clé unique (string, guid, long)</p>
+				<h3>Id == clé unique (string, guid, long)</h3>
 				<img width="80%" src="images/grain-silo-front.png" />
-				<aside  class="notes">
+				<aside class="notes">
 					uuid colliding probability = population mondiale, genérant un id toutes les secondes pendant plusieurs années
 				</aside>
-			</section>
-			<section>
-				<h2></h2>
 			</section>
 			<section>
 				<h2>Stateless Worker Grain</h2>
@@ -256,7 +249,7 @@
 				</div>
 				<div style="width: 58%; float:left;">
 					<ul>
-						<li>Pas d'adresse/identifiant unique</li>
+						<li>Pas d'identifiant unique</li>
 						<li>Multiple instances dans un cluster/serveur</li>
 						<li>Toujours exécuté locallement</li>
 					</ul>
@@ -289,11 +282,11 @@
 					<li>Appel périodique d'une méthode</li>
 					<li>Durant l'activation du grain uniquement</li>
 					<li>Appel comme si grain réentrant</li>
-					<li>période = temps après le retour du précédent appel !</li>
+					<li>période = temps après le retour du précédent appel</li>
 				</ul>
 			</section>
 			<section>
-				<h3>Reminders</h3>
+				<h2>Reminders</h2>
 				<ul>
 					<li>Timers persistants</li>
 					<li>Délivré comme un message</li>
@@ -321,7 +314,7 @@ public interface IPlayerGrain : IGrainWithGuidKey
 	Task LeaveGame(IGameGrain game);
 }
 </pre>
-<p>sample from https://dotnet.github.io/</legend>
+				<legend>sample from https://dotnet.github.io/</legend>
 			</section>
 			<section>
 				<h2>Implémentation du grain</h2>
@@ -346,38 +339,56 @@ public class PlayerGrain : Grain, IPlayerGrain
 	}
 }
 </pre>
-<p>sample from https://dotnet.github.io/</legend>
+				<legend>sample from https://dotnet.github.io/</legend>
 			</section>
 			<section>
 				<h1 id="patterns">Virtual Actor Patterns</h1>
+			</section>
+			<section>
+				<h2>Registry</h2>
+				<img src="images/Registry.png" width="100%" />
+			</section>
+			<section>
+				<h2>Registry</h2>
+				<h3>Cas d'utilisation</h3>
 				<ul>
-					<li>Virtual Cache</li>
-					<li>Registry</li>
-					<li>Aggregate</li>
-					<li>Event Sourcing</li>
+					<li>Recherche</li>
+					<li>Récupérer un grain sans sa clé</li>
+					<li>Récupérer l'ensemble des grains d'un type</li>
+				</ul>
+			</section>
+			<section>
+				<h2>Aggregate</h2>
+				<img src="images/aggregator.png" width="100%" />
+			</section>
+			<section>
+				<h2>Aggregate</h2>
+				<h3>Cas d'utilisation</h3>
+				<ul>
+					<li>Compteurs</li>
+					<li>Rapports</li>
 				</ul>
 			</section>
 
+			<section>
+					<h2>Virtual Cache</h2>
+				</section>
 			<section>
 				<h2>Virtual Cache</h2>
 				<h3>Cas d'utilisation</h3>
 			</section>
 
 			<section>
-				<h2>Registry</h2>
-				<h3>Cas d'utilisation</h3>
-			</section>
-			<section>
-				<h2>Aggregate</h2>
-				<h3>Cas d'utilisation</h3>
-			</section>
-			<section>
-				<h2>Event Sourcing</h2>
-				<h3>Cas d'utilisation</h3>
-			</section>
-			<section>
 				<h1 id="conclusions">Conclusions</h1>
 			</section>
+
+			<section>
+				<h2>Pour quels cas est-ce intéressant d'utiliser Orleans ?</h2>
+				<ul>
+					<li></li>
+				</ul>
+			</section>
+
 			<section>
 				<h2>Conclusions</h2>
 			</section>
