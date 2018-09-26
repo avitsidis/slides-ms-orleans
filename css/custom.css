@@ -3,3 +3,12 @@
     box-shadow: none;
     width: 100%;
 }
+
+.reveal dl{
+    color: #eee8d5;
+}
+
+.reveal dd
+{
+    color: #93a1a1;
+}

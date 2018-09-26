@@ -55,23 +55,29 @@
 				<h2>Les origines</h2>
 				<ul>
 					<li>Créé par Microsoft Research en 2011</li>
-					<li>Open source depuis 2015 (repository Microsoft avec le plus d'activité)</li>
+					<li>Open source depuis 2015 (Github)</li>
 					<li>Utilisé principalement par:
 						<ul>
 							<li>Produits Microsoft (Azure)</li>
 							<li>343 Industries (Halo 4 et 5)</li>
-							<li>Multiple IoT project</li>
+							<li>Multiples projets IoT</li>
 						</ul>
 					</li>
 				</ul>
 			</section>
 			<section>
-				<h2>Microsoft Orleans en quelques mots</h2>
-				<ul>
-					<li>C# distribué</li>
-					<li>Boite à outils pour services 'cloud'</li>
-					<li>Virtual Actor Model acteur virtuel distribué</li>
-				</ul>
+				<h2>Définitions de Microsoft Orleans</h2>
+				<dl>
+					<dt>C# distribué</dt>
+					<dd>Exécution d'objets .net sur un cluster</dd>
+					<dt>Boite à outils pour services 'cloud'</dt>
+					<dd>Nativement scalable</dd>
+					<dd>Pousse les bonnes pratiques cloud</dd>
+					<dd>Facile a mettre en place</dd>
+					<dt>Virtual Actor Model acteur virtuel distribué</dt>
+					<dd>Adaptation du modèle acteur pour le cloud</dd>
+					<dd>Acteurs qui existent éternellement</dd>
+				</dl>
 				<aside class="notes">
 					<h3>C# distribué</h3>
 					<ul>
@@ -99,17 +105,18 @@
 				<h2>C'est un peu comme un objet ...</h2>
 				<ul>
 					<li>Reçoit des messages</li>
-					<li>Maintien un état</li>
-					<li>Execute du code en fonction du message recu</li>
+					<li>Maintient un état</li>
+					<li>Exécute du code en fonction du message reçu</li>
 				</ul>
 			</section>
 			<section>
 				<h2>C'est un peu comme un objet ...</h2>
-				<h3>... Mais pas complètement</h3>
+				<h2>... Mais pas complètement</h2>
 				<ul>
-					<li>completement isolé des uns des autres</li>
-					<li>ne partage pas de mémoire</li>
-					<li>Communication via une mailbox(adresse)</li>
+					<li>Complètement isolé les uns des autres</li>
+					<li>Ne partage pas de mémoire</li>
+					<li>Appels indirects au travers d'une mailbox</li>
+					<li>Dépend d'un superviseur (hierarchie d'acteurs) </li>
 				</ul>
 				<aside class="notes">
 					<ul>
@@ -122,7 +129,7 @@
 						<li>Ne partage pas de mémoire</li>
 						<li>Communication via une mailbox(adresse)
 							<ul>
-								<li>Peut etre sur des serveurs différents</li>
+								<li>Peut être héberger sur des serveurs différents</li>
 							</ul>
 						</li>
 					</ul>
@@ -131,33 +138,42 @@
 			<section>
 				<h2>Que peut faire un acteur ?</h2>
 				<ul>
-					<li>Créer d'autres acteur</li>
-					<li>Envoyer un message à un autre acteur</li>
-					<li>Changer son état</li>
+					<li>Créer d'autres acteurs</li>
+					<li>Envoyer un message à un acteur</li>
+					<li>Modifier son état</li>
 				</ul>
 			</section>
 			<section>
-				<h2>Let it crash !</h2>
+				<h2>La philosophie 'Let it crash'</h2>
+				<p>Le cas où l'acteur plante est géré de base :</p>
+				<p>Le superviseur reçoit un message.</p>
 				<ul>
-					<li>responsabilité de récupération à un autre niveau</li>
-					<li>acteur dépendant d'un superviseur (acteur)</li>
-					<li>stratégie la plus facile: acteur réinitiatlisé avec son état initial</li>
+					<li>Stratégies possibles :<ul>
+							<li>Réinitialisation de l'acteur</li>
+							<li>Arrêt d'autres acteurs</li>
+							<li>Envoi d'un message d'erreur à son superviseur</li>
+							<li>...</li>
+						</ul>
 				</ul>
 			</section>
 			<section>
-				<h1 id="ms-orleans-virtual-actor-model">MS Orleans & Virtual Actor Model</h1>
+				<h1 id="ms-orleans-virtual-actor-model">Virtual Actor Model avec MS Orleans</h1>
 			</section>
 			<section>
 				<h2>Points faibles du modèle Acteur</h2>
 				<ul>
 					<li>Framework Low Level
 						<ul>
-							<li>Lifecycle géré par l'application --> exposé aux distributed races</li>
-							<li>Gestion des exceptions par l'application au travers d'acteurs parents (supervision tree)</li>
-							<li>Placement des acteurs défini par l'application --> problèmes de gestion des ressources</li>
+							<li>Lifecycle géré par l'application</li>
+							<li>Gestion des exceptions par l'application au travers de superviseurs</li>
+						</ul>
+					<li>Placement des acteurs défini par l'application
+						<ul>
+							<li>Sous optimisation des ressources serveurs</li>
 						</ul>
 					</li>
-					<li>Besoin d'avoir des experts en système distribué</li>
+					</li>
+					<li>Nécessité d'avoir des experts en systèmes distribués</li>
 				</ul>
 			</section>
 			<section>
@@ -166,14 +182,14 @@
 					<li>L'instance d'acteur existe toujours (virtuellement)</li>
 					<!--• Application neither creates nor deletes them. They never fail.
 							• Code can always call methods on an actor -->
-					<li>Activations créée à la demande</li>
+					<li>Activations créées à la demande</li>
 					<!-- 
 							• If there is no existing activation, a message sent to it triggers instantiation
 							• Transparent recovery from server failures
 							• Lifecycle is managed by the runtime
 							• Runtime can create multiple activations of stateless actors (for performance)
 						-->
-					<li>Localisation transparente</li><!-- Check last one ? -->
+					<li>Localisation transparente</li>
 					<!--• Actors can pass around references to one another or persist them
 							• These are logical (virtual) references, always valid, not tied to a specific activation -->
 				</ul>
@@ -209,33 +225,35 @@
 					<div style="width: 48%;float:left;">
 						<div style="margin-top: auto; margin-bottom: auto;">
 							<h4>Virtual Actor => Grain</h4>
-							<img src="images/grain.jpg" />
+							<img src="images/grain.jpg" style="margin-top:20%;" />
 						</div>
 					</div>
 					<div style="width: 48%; float:left;">
 						<h4>Serveur => Silo</h4>
-						<img src="images/Harvestore_Silos_Britton_Michigan.JPG" width="60%">
+						<img src="images/Harvestore_Silos_Britton_Michigan.JPG" width="60%" style="margin:auto">
 					</div>
 				</div>
 			</section>
 			<section>
 				<h2>Définition d'un grain</h2>
 				<ul>
-					<li>Acteur existe toujours(au moins virtuellement)</li>
+					<li>Acteur existe toujours (au moins virtuellement)</li>
 					<li>Activation sur le cluster à la demande</li>
 					<li>Localisation transparente</li>
-					<li>Chaque grain a identifiant unique</li>
+					<li>Chaque grain a un identifiant unique</li>
 					<li>Ne retourne que des objets de type <b>Task</b></li>
 				</ul>
 				<img src="images/grain.jpg" />
 			</section>
 			<section>
+					<h2>Cycle de vie d'un grain</h2>
 				<img src="images/lifecycle.png" height="100%" />
+				<legend>source: https://dotnet.github.io/orleans/</legend>
 			</section>
 
 			<section>
 				<h2>Grain Id</h2>
-				<h3>Id == clé unique (string, guid, long)</h3>
+				<h3>Id = clé unique (string, guid, long)</h3>
 				<img width="80%" src="images/grain-silo-front.png" />
 				<aside class="notes">
 					uuid colliding probability = population mondiale, genérant un id toutes les secondes pendant plusieurs années
@@ -250,21 +268,21 @@
 				<div style="width: 58%; float:left;">
 					<ul>
 						<li>Pas d'identifiant unique</li>
-						<li>Multiple instances dans un cluster/serveur</li>
-						<li>Toujours exécuté locallement</li>
+						<li>Multiples instances dans un cluster/serveur</li>
+						<li>Toujours exécuté localement</li>
 					</ul>
 				</div>
 
 			</section>
 			<section>
 				<h2>Stateless Worker grain </h2>
-				<h3>Cas d'utilisation</h3>
+				<h3>Cas d'utilisations</h3>
 				<div style="width: 40%; float:left;">
 					<img src="images/worker.png" height="100%" />
 				</div>
 				<div style="width: 58%; float:left;">
 					<ul>
-						<li>Operations fonctionnelles</li>
+						<li>Opérations fonctionnelles</li>
 						<li>Opérations techniques
 							<ul>
 								<li>Compression/Décompression</li>
@@ -280,16 +298,16 @@
 				<h2>Timers</h2>
 				<ul>
 					<li>Appel périodique d'une méthode</li>
-					<li>Durant l'activation du grain uniquement</li>
+					<li>Uniquement quand le grain est actif</li>
 					<li>Appel comme si grain réentrant</li>
-					<li>période = temps après le retour du précédent appel</li>
+					<li>Période = temps après le retour du précédent appel</li>
 				</ul>
 			</section>
 			<section>
 				<h2>Reminders</h2>
 				<ul>
 					<li>Timers persistants</li>
-					<li>Délivré comme un message</li>
+					<li>Délivrés comme un message</li>
 					<li>Fréquence basse (1 minute)</li>
 				</ul>
 			</section>
@@ -298,7 +316,7 @@
 			</section>
 
 			<section>
-				<h2>Accessing a grain</h2>
+				<h2>Accéder à un grain</h2>
 				<pre><code class="cs hljs" data-trim contenteditable>
 var user = grainFactory.GetGrain&lt;IUserProfile&gt;(userEmail);
 await user.UpdateAddress(newAddress);
@@ -314,7 +332,7 @@ public interface IPlayerGrain : IGrainWithGuidKey
 	Task LeaveGame(IGameGrain game);
 }
 </code></pre>
-				<legend>sample from https://dotnet.github.io/</legend>
+				<legend>sample from https://dotnet.github.io/orleans/</legend>
 			</section>
 			<section>
 				<h2>Implémentation du grain</h2>
@@ -339,11 +357,35 @@ public class PlayerGrain : Grain, IPlayerGrain
 	}
 }
 </code></pre>
-				<legend>sample from https://dotnet.github.io/</legend>
+				<legend>sample from https://dotnet.github.io/orleans/</legend>
 			</section>
 			<section>
 				<h1 id="patterns">Virtual Actor Patterns</h1>
 			</section>
+			<section>
+					<h2>Smart Cache</h2>
+					<img src="images/smartcache.png" width="100%" />
+					<aside class="notes">
+						<ul>
+							<li>Read hits to the system are fast as the grain holds the data in memory.</li>
+							<li>Writes to the system can be buffered at the cost of increased chance of data loss.</li>
+							<li>Using Orleans Persistence Providers could reduce development time as the data access code is already
+								provided.</li>
+						</ul>
+					</aside>
+				</section>
+				<section>
+					<h2>Smart Cache</h2>
+					<h3>Cas d'utilisation</h3>
+					<ul>
+						<li>Cache de <ul>
+								<li>base de données</li>
+								<li>web services</li>
+								<li>...</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
 			<section>
 				<h2>Registry</h2>
 				<img src="images/Registry.png" width="100%" />
@@ -369,34 +411,10 @@ public class PlayerGrain : Grain, IPlayerGrain
 					<li>Rapports</li>
 				</ul>
 			</section>
-
-			<section>
-				<h2>Smart Cache</h2>
-				<img src="images/smartcache.png" width="100%" />
-				<aside class="notes">
-					<ul>
-						<li>Read hits to the system are fast as the grain holds the data in memory.</li>
-						<li>Writes to the system can be buffered at the cost of increased chance of data loss.</li>
-						<li>Using Orleans Persistence Providers could reduce development time as the data access code is already
-							provided.</li>
-					</ul>
-				</aside>
-			</section>
-			<section>
-				<h2>Smart Cache</h2>
-				<h3>Cas d'utilisation</h3>
-				<ul>
-					<li>Cache de base données</li>
-					<li>Cache de web services</li>
-					<li>Cache de ...</li>
-
-				</ul>
-			</section>
 			<section>
 				<h2>Dispatcher</h2>
 				<img src="images/dispatcher.png" width="100%" />
 				<aside class="notes">
-
 				</aside>
 			</section>
 			<section>
@@ -422,9 +440,9 @@ public class PlayerGrain : Grain, IPlayerGrain
 				</ul>
 			</section>
 			<section>
-					<h2>Pour quels cas n'est il pas intéressant d'utiliser Orleans ?</h2>
-					<p>Si des requêtes différentes actives des combinaisons de records dans une base de données</p>
-				</section>
+				<h2>Pour quels cas n'est il pas intéressant d'utiliser Orleans ?</h2>
+				<p>Si des requêtes différentes actives des combinaisons de records dans une base de données</p>
+			</section>
 			<section>
 				<h2>Conclusions</h2>
 				<ul>
@@ -439,9 +457,9 @@ public class PlayerGrain : Grain, IPlayerGrain
 				<h2>Et après ?</h2>
 				<ul>
 					<li>Observer</li>
-					<li>Stream Grain & event sourcing</li>
-					<li>Stockage/Persistance de grain</li>
-					<li>Deploiement(consul, zookeeper, ...)</li>
+					<li>Stream Grains et event sourcing</li>
+					<li>Stockage/Persistance de grains</li>
+					<li>Déploiement d'un cluster (consul, zookeeper, ...)</li>
 					<li>...</li>
 				</ul>
 			</section>
