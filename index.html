@@ -299,26 +299,26 @@
 
 			<section>
 				<h2>Accessing a grain</h2>
-				<pre>
+				<pre><code class="hljs" data-trim contenteditable>
 var user = grainFactory.GetGrain&lt;IUserProfile&gt;(userEmail);
 await user.UpdateAddress(newAddress);
-</pre>
+				</code></pre>
 			</section>
 			<section>
 				<h2>Interface de grain</h2>
-				<pre>
+				<pre><code class="hljs" data-trim contenteditable>
 public interface IPlayerGrain : IGrainWithGuidKey
 {
 	Task&lt;IGameGrain&gt; GetCurrentGame();
 	Task JoinGame(IGameGrain game);
 	Task LeaveGame(IGameGrain game);
 }
-</pre>
+</code></pre>
 				<legend>sample from https://dotnet.github.io/</legend>
 			</section>
 			<section>
 				<h2>Implémentation du grain</h2>
-				<pre class="no-border">
+				<pre class="no-border"><code class="hljs" data-trim contenteditable>
 public class PlayerGrain : Grain, IPlayerGrain
 {
 	private IGameGrain currentGame;
@@ -338,7 +338,7 @@ public class PlayerGrain : Grain, IPlayerGrain
 		return Task.CompletedTask;
 	}
 }
-</pre>
+</code></pre>
 				<legend>sample from https://dotnet.github.io/</legend>
 			</section>
 			<section>
@@ -437,11 +437,16 @@ public class PlayerGrain : Grain, IPlayerGrain
 			margin: 0.1,
 			progress: true,
 			slideNumber: true,
+			history: true,
+			center: true,
+			transition: 'convex', // none/fade/slide/convex/concave/zoom
 			dependencies: [
 				{ src: 'plugin/markdown/marked.js' },
 				{ src: 'plugin/markdown/markdown.js' },
 				{ src: 'plugin/notes/notes.js', async: true },
-				{ src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } }
+				{ src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } },
+				{ src: 'plugin/search/search.js', async: true },
+				{ src: 'plugin/zoom-js/zoom.js', async: true }
 			]
 		});
 	</script>
